@@ -1,0 +1,113 @@
+body {
+  width: 280px;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+
+  font-family: Arial, sans-serif;
+
+  background: #ffffff;
+  color: #222222;
+}
+
+.container {
+  width: 100%;
+}
+
+h1 {
+  margin: 0 0 20px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 14px;
+}
+
+/* Toggle switch */
+
+.switch {
+  position: relative;
+
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+
+  cursor: pointer;
+
+  background-color: #cccccc;
+  border-radius: 24px;
+
+  transition: 0.2s;
+}
+
+.slider::before {
+  content: "";
+
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  left: 3px;
+  top: 3px;
+
+  background-color: white;
+  border-radius: 50%;
+
+  transition: 0.2s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+/* Attribution */
+
+.attribution {
+  margin-top: 24px;
+  padding-top: 14px;
+
+  border-top: 1px solid #e5e5e5;
+
+  font-size: 11px;
+  line-height: 1.5;
+
+  color: #777777;
+}
+
+.attribution-title {
+  margin-bottom: 4px;
+
+  font-weight: 600;
+
+  color: #555555;
+}
+
+.attribution a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.attribution a:hover {
+  text-decoration: underline;
+}

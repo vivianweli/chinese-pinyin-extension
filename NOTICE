@@ -1,0 +1,17 @@
+Chinese Pinyin Helper
+======================
+
+This extension uses CC-CEDICT dictionary data.
+
+CC-CEDICT
+Copyright (c) MDBG
+https://cc-cedict.org/
+
+CC-CEDICT is licensed under the Creative Commons
+Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+
+License:
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The CC-CEDICT data included with this extension has been
+modified for use as a Pinyin lookup dictionary.

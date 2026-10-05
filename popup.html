@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chinese Pinyin Helper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Chinese Pinyin Helper</h1>
+
+    <div class="setting">
+      <span>Enable Pinyin</span>
+
+      <label class="switch">
+        <input type="checkbox" id="enableToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="attribution">
+      <div class="attribution-title">Dictionary</div>
+
+      <div>
+        Pinyin data from
+        <a
+          href="https://cc-cedict.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >CC-CEDICT</a>,
+        licensed under
+        <a
+          href="https://creativecommons.org/licenses/by-sa/4.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >CC BY-SA 4.0</a>.
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
