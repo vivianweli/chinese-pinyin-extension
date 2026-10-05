@@ -1,4 +1,4 @@
-# Chinese Pinyin Extension
+# Chinese Pinyin Helper Chrome Extension
 How to use this chrome extension: 
 1. Download this code as a zip then unzip somewhere on your machine
 2. Open chrome and go to _chrome://extensions/_
