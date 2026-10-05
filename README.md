@@ -28,3 +28,4 @@ You can still view the pinyin of individual characters.
 
 ## Attribution
 The dictionary used is from [CC-CEDICT](https://cc-cedict.org/wiki/). CC-CEDICT is licensed under a [Creative Commons Attribution-Share Alike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/).
+Built using Cursor and ChatGPT.
