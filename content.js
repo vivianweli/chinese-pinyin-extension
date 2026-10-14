@@ -5,8 +5,7 @@ chrome.storage.local.get(["enabled"], (result) => {
 });
 
 let pinyinBox = null;
-let currentPinyin = null;
-let isCopying = false;
+let copyCount = 0;
 
 document.addEventListener("mouseup", () => {
   if (!extensionEnabled) {
@@ -30,7 +29,7 @@ chrome.storage.onChanged.addListener((changes) => {
 function handleSelection() {
   // Give the browser time to finish updating the selection.
   setTimeout(() => {
-    if (isCopying) return;
+    if (copyCount > 0) return;
 
     const selection = window.getSelection();
     const text = selection.toString().trim();
@@ -67,29 +66,42 @@ function getPinyin(text) {
     return null;
   }
 
-  // Multiple pronunciations
-  if (Array.isArray(result)) {
-    return result.join(" / ");
-  }
+  const pronunciations = Array.isArray(result) ? result : [result];
+  const unique = [...new Set(pronunciations.filter(Boolean))];
 
-  return result;
+  return unique.length ? unique : null;
 }
 
-
-
-function showPinyin(pinyin, selection) {
+function showPinyin(pronunciations, selection) {
   removePinyinBox();
 
-  currentPinyin = pinyin;
+  const container = document.createElement("div");
+  pinyinBox = container;
 
+  Object.assign(container.style, {
+    position: "fixed",
+    zIndex: "2147483647",
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "8px",
+    alignItems: "center",
+    maxWidth: "calc(100vw - 10px)"
+  });
+
+  pronunciations.forEach((pinyin) => {
+    container.appendChild(createPinyinChip(pinyin));
+  });
+
+  document.body.appendChild(container);
+  positionPinyinBox(selection);
+}
+
+function createPinyinChip(pinyin) {
   const box = document.createElement("div");
-  pinyinBox = box;
 
   box.textContent = pinyin;
 
   Object.assign(box.style, {
-    position: "fixed",
-    zIndex: "2147483647",
     background: "#ffffff",
     color: "#111111",
     padding: "8px 12px",
@@ -99,7 +111,8 @@ function showPinyin(pinyin, selection) {
     fontFamily: "Arial, sans-serif",
     border: "1px solid #dddddd",
     cursor: "pointer",
-    userSelect: "none"
+    userSelect: "none",
+    whiteSpace: "nowrap"
   });
 
   box.title = "Click to copy";
@@ -117,19 +130,16 @@ function showPinyin(pinyin, selection) {
     copyPinyin(pinyin, box);
   });
 
-  document.body.appendChild(box);
-
-  positionPinyinBox(selection);
+  return box;
 }
 
 async function copyPinyin(pinyin, box) {
-  isCopying = true;
+  copyCount += 1;
 
   const success = await copyToClipboard(pinyin);
 
-  // Make sure the popup still exists.
-  if (pinyinBox !== box) {
-    isCopying = false;
+  if (!pinyinBox || !pinyinBox.contains(box)) {
+    copyCount = Math.max(0, copyCount - 1);
     return;
   }
 
@@ -138,24 +148,24 @@ async function copyPinyin(pinyin, box) {
     box.style.color = "#16a34a";
 
     setTimeout(() => {
-      if (pinyinBox === box) {
+      if (pinyinBox && pinyinBox.contains(box)) {
         box.textContent = pinyin;
         box.style.color = "#111111";
       }
 
-      isCopying = false;
+      copyCount = Math.max(0, copyCount - 1);
     }, 1200);
   } else {
     box.textContent = "Copy failed";
     box.style.color = "#dc2626";
 
     setTimeout(() => {
-      if (pinyinBox === box) {
+      if (pinyinBox && pinyinBox.contains(box)) {
         box.textContent = pinyin;
         box.style.color = "#111111";
       }
 
-      isCopying = false;
+      copyCount = Math.max(0, copyCount - 1);
     }, 1500);
   }
 }
@@ -226,9 +236,8 @@ function positionPinyinBox(selection) {
 }
 
 function removePinyinBox() {
-  if (pinyinBox && !isCopying) {
+  if (pinyinBox && copyCount === 0) {
     pinyinBox.remove();
     pinyinBox = null;
-    currentPinyin = null;
   }
 }
