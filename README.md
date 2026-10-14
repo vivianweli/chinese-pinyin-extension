@@ -17,12 +17,13 @@ If it's not a vocabulary, you won't be able to see anything.
 
 <img width="89" height="90" alt="image" src="https://github.com/user-attachments/assets/45be8424-8aad-4bf4-a13b-0ebbb1b343f7" />
 
-You can still view the pinyin of individual characters.
+You can still view the pinyin of individual characters. If it has multiple sounds, it will show each as a separate box you can copy.
+<img width="154" height="101" alt="image" src="https://github.com/user-attachments/assets/f2c9f164-78c9-4b62-a049-245a0b98ea7f" />
+<img width="264" height="94" alt="image" src="https://github.com/user-attachments/assets/eb024f87-711a-41dc-8f10-5f7df7677197" />
 
-<img width="181" height="96" alt="image" src="https://github.com/user-attachments/assets/cce1f38d-f0c8-410f-809e-72e4f6b54737" />
 
 3. Copy the pinyin by clicking on it!
-<img width="119" height="75" alt="image" src="https://github.com/user-attachments/assets/8492998e-a1f8-4214-ad31-2080e2f7cb92" />
+<img width="142.8" height="90" alt="image" src="https://github.com/user-attachments/assets/8492998e-a1f8-4214-ad31-2080e2f7cb92" />
 <br>
 <img width="114" height="102" alt="image" src="https://github.com/user-attachments/assets/144b093b-4830-4b4f-81db-d88ccd996362" />
 
