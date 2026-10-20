@@ -11,17 +11,19 @@ TONE_MARKS = {
     "i": ["ī", "í", "ǐ", "ì"],
     "o": ["ō", "ó", "ǒ", "ò"],
     "u": ["ū", "ú", "ǔ", "ù"],
-    "v": ["ǖ", "ǘ", "ǚ", "ǜ"],
+    # Combining marks keep the tone on top of ü (precomposed ǚ often sits beside it).
+    "ü": ["ü\u0304", "ü\u0301", "ü\u030C", "ü\u0300"],
 }
 
 
 def numbered_to_tone(syllable):
-    match = re.match(r"^([a-züv]+)([0-5])$", syllable.lower())
+    match = re.match(r"^([a-züv:]+)([0-5])$", syllable.lower())
 
     if not match:
         return syllable
 
-    letters = match.group(1)
+    # CC-CEDICT writes ü as "u:", e.g. nu:3, lu:e4
+    letters = match.group(1).replace("u:", "ü").replace("v", "ü")
     tone = int(match.group(2))
 
     if tone == 5:
@@ -42,7 +44,7 @@ def numbered_to_tone(syllable):
     # Otherwise put it on the last vowel
     if vowel_index is None:
         for i in range(len(letters) - 1, -1, -1):
-            if letters[i] in "aeiouvü":
+            if letters[i] in "aeiouü":
                 vowel_index = i
                 break
 
@@ -51,12 +53,10 @@ def numbered_to_tone(syllable):
 
     vowel = letters[vowel_index]
 
-    if vowel in ["ü", "v"]:
-        vowel_key = "v"
-    else:
-        vowel_key = vowel
+    if vowel not in TONE_MARKS:
+        return syllable
 
-    marked_vowel = TONE_MARKS[vowel_key][tone - 1]
+    marked_vowel = TONE_MARKS[vowel][tone - 1]
 
     return (
         letters[:vowel_index]

@@ -59,6 +59,80 @@ function containsChinese(text) {
   return /[\u3400-\u4DBF\u4E00-\u9FFF]/.test(text);
 }
 
+const TONE_MARKS = {
+  a: ["ā", "á", "ǎ", "à"],
+  e: ["ē", "é", "ě", "è"],
+  i: ["ī", "í", "ǐ", "ì"],
+  o: ["ō", "ó", "ǒ", "ò"],
+  u: ["ū", "ú", "ǔ", "ù"],
+  // Combining marks keep the tone sitting on top of ü.
+  ü: ["ü\u0304", "ü\u0301", "ü\u030C", "ü\u0300"]
+};
+
+function numberedToTone(syllable) {
+  const match = syllable.toLowerCase().match(/^([a-züv:]+)([0-5])$/);
+
+  if (!match) {
+    return syllable;
+  }
+
+  let letters = match[1].replaceAll("u:", "ü").replaceAll("v", "ü");
+  const tone = Number(match[2]);
+
+  if (tone === 5) {
+    return letters;
+  }
+
+  let vowelIndex = -1;
+
+  for (const vowel of ["a", "e"]) {
+    vowelIndex = letters.indexOf(vowel);
+    if (vowelIndex !== -1) {
+      break;
+    }
+  }
+
+  if (vowelIndex === -1 && letters.includes("ou")) {
+    vowelIndex = letters.indexOf("o");
+  }
+
+  if (vowelIndex === -1) {
+    for (let i = letters.length - 1; i >= 0; i -= 1) {
+      if ("aeiouü".includes(letters[i])) {
+        vowelIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (vowelIndex === -1) {
+    return syllable;
+  }
+
+  const vowel = letters[vowelIndex];
+
+  if (!TONE_MARKS[vowel]) {
+    return syllable;
+  }
+
+  return (
+    letters.slice(0, vowelIndex) +
+    TONE_MARKS[vowel][tone - 1] +
+    letters.slice(vowelIndex + 1)
+  );
+}
+
+function convertPinyin(pinyin) {
+  return pinyin
+    .split(/\s+/)
+    .map(numberedToTone)
+    .join(" ")
+    .replaceAll("ǖ", "ü\u0304")
+    .replaceAll("ǘ", "ü\u0301")
+    .replaceAll("ǚ", "ü\u030C")
+    .replaceAll("ǜ", "ü\u0300");
+}
+
 function getPinyin(text) {
   const result = PINYIN_DICTIONARY[text];
 
@@ -67,7 +141,11 @@ function getPinyin(text) {
   }
 
   const pronunciations = Array.isArray(result) ? result : [result];
-  const unique = [...new Set(pronunciations.filter(Boolean))];
+  const unique = [...new Set(
+    pronunciations
+      .filter(Boolean)
+      .map(convertPinyin)
+  )];
 
   return unique.length ? unique : null;
 }
