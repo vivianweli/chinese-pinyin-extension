@@ -45,8 +45,8 @@ You can still view the pinyin of individual characters. If a character has multi
 
 <table align="center">
   <tr>
-    <th align="center">Single sound</th>
-    <th align="center">Multiple sounds</th>
+    <th align="center">Character with multiple sounds</th>
+    <th align="center">Vocabulary with multiple sounds</th>
   </tr>
   <tr>
     <td align="center" valign="middle">
@@ -64,7 +64,7 @@ Click any pinyin box to copy it to your clipboard.
 
 <table align="center">
   <tr>
-    <th align="center">Click the pinyin</th>
+    <th align="center">Select</th>
     <th align="center">Copied</th>
   </tr>
   <tr>
