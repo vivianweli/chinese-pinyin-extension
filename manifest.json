@@ -2,12 +2,23 @@
   "manifest_version": 3,
   "name": "Chinese Pinyin Helper",
   "version": "1.0.0",
-  "description": "Shows Pinyin when Chinese text is highlighted.",
+  "description": "Select Chinese text on any web page to see its pinyin, then click to copy. Works offline with a built-in dictionary.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "permissions": [
     "storage"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "Chinese Pinyin Helper",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
   },
   "content_scripts": [
     {
