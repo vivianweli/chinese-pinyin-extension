@@ -80,4 +80,4 @@ Click any pinyin box to copy it to your clipboard.
 ## Attribution
 
 - The dictionary used is from [CC-CEDICT](https://cc-cedict.org/wiki/), licensed under a [Creative Commons Attribution-Share Alike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/).
-- Built using Cursor and ChatGPT.
+- Built using Cursor, Claude and ChatGPT.
