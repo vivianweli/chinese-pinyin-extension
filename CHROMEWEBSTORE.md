@@ -135,8 +135,8 @@ https://github.com/vivianweli/chinese-pinyin-extension
 
 ### Known Issues / Limitations
 - Runs on all websites (`<all_urls>`); expect reviewers to ask about it. Justification above.
-- The bundled dictionary (`dictionary.js`, ~5.5 MB) is large for a content script and loads on every page. It works, but a future update could load it lazily on first selection.
-- Dictionary license: CC-CEDICT. `NOTICE` says "Attribution-ShareAlike 4.0 (CC BY-SA 3.0)", and `dictionary.js` says 4.0 while README and the popup link to 3.0. Check cc-cedict.org for the current version and make these consistent before submitting.
+- The ~5.5 MB dictionary is loaded only by the background service worker, when the user first selects Chinese text, and is not injected into web pages. Content scripts message the worker to look words up (internal messaging only, no network). The worker may be stopped by Chrome after a period of inactivity and will reload the dictionary on the next lookup.
+- Dictionary license is CC BY-SA 3.0 everywhere (NOTICE, dictionary.js header, README, popup).
 - No remote code, no obfuscation, no network requests.
 
 ### Rejection History

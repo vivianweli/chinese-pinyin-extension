@@ -28,7 +28,7 @@ chrome.storage.onChanged.addListener((changes) => {
   
 function handleSelection() {
   // Give the browser time to finish updating the selection.
-  setTimeout(() => {
+  setTimeout(async () => {
     if (copyCount > 0) return;
 
     const selection = window.getSelection();
@@ -44,7 +44,10 @@ function handleSelection() {
       return;
     }
 
-    const pinyin = getPinyin(text);
+    const pinyin = await getPinyin(text);
+
+    // The selection may have changed while the dictionary lookup was running.
+    if (copyCount > 0 || selection.toString().trim() !== text) return;
 
     if (!pinyin) {
       removePinyinBox();
@@ -133,8 +136,19 @@ function convertPinyin(pinyin) {
     .replaceAll("ǜ", "ü\u0300");
 }
 
-function getPinyin(text) {
-  const result = PINYIN_DICTIONARY[text];
+async function getPinyin(text) {
+  let result;
+
+  try {
+    // The dictionary is loaded once in the background service worker.
+    ({ pronunciations: result } = await chrome.runtime.sendMessage({
+      type: "lookup",
+      text
+    }));
+  } catch (error) {
+    // E.g. the extension was reloaded while this page was open.
+    return null;
+  }
 
   if (!result) {
     return null;

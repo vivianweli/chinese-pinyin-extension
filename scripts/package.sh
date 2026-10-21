@@ -12,7 +12,7 @@ mkdir -p dist
 rm -f "$OUTPUT"
 
 zip -X "$OUTPUT" \
-  manifest.json \
+  manifest.json background.js \
   content.js \
   dictionary.js \
   popup.html popup.css popup.js \
